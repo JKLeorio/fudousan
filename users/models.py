@@ -66,10 +66,6 @@ def user_directory_path(instance, filename):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    TYPE_ROLE_CHOICES = [
-        ("admin", "Admin"),
-        ("manager", "Manager"),
-    ]
     email = models.EmailField(unique=True, verbose_name="Почта")
     first_name = models.CharField(max_length=50, verbose_name="Имя")
     last_name = models.CharField(max_length=50, verbose_name="Фамилия")
@@ -77,7 +73,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     # unique_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     # image = models.ForeignKey(UserImage, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Аватар")
     image = models.ImageField(upload_to=user_directory_path, default='default.jpg', blank=True, verbose_name="Аватар")
-    user_type = models.CharField(max_length=255, choices=TYPE_ROLE_CHOICES, verbose_name="Тип пользователя")
     is_staff = models.BooleanField(default=False, verbose_name="Сотрудник")
     is_active = models.BooleanField(default=True, verbose_name="Активен")
     is_superuser = models.BooleanField(default=False, verbose_name="Суперь пользователь")
