@@ -20,6 +20,7 @@ lib64/
 migrations/
 parts/
 sdist/
+static/
 var/
 wheels/
 pip-wheel-metadata/
