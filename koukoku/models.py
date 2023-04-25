@@ -40,7 +40,7 @@ class Location(models.Model):
     region = models.ForeignKey(Region, on_delete=models.SET_NULL, null=True, verbose_name="Область")
 
     def __str__(self):
-        return f"Область: {self.region} - город: {self.city} - район: {self.district}"
+        return f"{self.region} - {self.city} - {self.district}"
 
     class Meta:
         verbose_name_plural = "Локации"
@@ -99,17 +99,17 @@ class PaymentTerm(models.Model):
 class Estate(models.Model):
 
     CURRENCY_CHOICES = (
-        (1, "USD"),
-        (2, "СОМ"),
-        (3, "Договорная"),
+        ("1", "USD"),
+        ("2", "СОМ"),
+        ("3", "Договорная"),
     )
 
     DEAL_TYPE_CHOICES = (
-        (1, "Продаю участок"),
-        (2, "Продаю дом"),
-        (3, "Продаю под снос"),
-        (4, "Аренда участка"),
-        (5, "Куплю участок/дом"),
+        ("1", "Продаю участок"),
+        ("2", "Продаю дом"),
+        ("3", "Продаю под снос"),
+        ("4", "Аренда участка"),
+        ("5", "Куплю участок/дом"),
     )
 
     name = models.CharField(max_length=50, verbose_name="Название")
