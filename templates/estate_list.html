@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <h1 class="mt-3">Список недвижимости</h1>
+    <hr>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      {% for estate in object_list %}
+        <div class="col">
+          <div class="card-deck">
+            <img src="{{ estate.image.url }}" class="card-img-top" alt="{{ estate.name }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ estate.name }}</h5>
+              <p class="card-text">{{ estate.description }}</p>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Тип сделки: {{ estate.get_deal_type_display }}</li>
+                <li class="list-group-item">Цена: {{ estate.price }} {{ estate.get_currency_display }}</li>
+                <li class="list-group-item">Телефон: {{ estate.phone }}</li>
+                <li class="list-group-item">Расположение: {{ estate.location }}</li>
+              </ul>
+              <a href="{% url 'estate_detail' estate.pk %}" class="btn btn-primary mt-3">Подробнее</a>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <p>Нет доступных объектов недвижимости.</p>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

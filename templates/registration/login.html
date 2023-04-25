@@ -1,20 +1,28 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
-{% block content %}
-    <h1>Авторизация</h1>
-    <hr>
-    {% if form.errors %}
-        <p>{{ form.errors.error }}</p>
-    {% endif %}
-    <div class="input-group input-group-sm mb-3">
-    <form action="{% url 'login' %}" method="post" >
-    {{ form | crispy}}
-    {% csrf_token %}
-    <button type="submit" class="btn btn-success">Войти</button>
 
-    </form>
+{% block content %}
+  <div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="mb-0">Авторизация</h4>
+          </div>
+          <div class="card-body">
+            <form method="post">
+              {% csrf_token %}
+              {{ form|crispy }}
+              <div class="form-group text-center mt-4">
+                <button type="submit" class="btn btn-primary">Войти</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="text-center mt-3">
+          <a href="{% url 'password_reset' %}">Забыли пароль?</a>
+        </div>
+      </div>
     </div>
-    <a href="{% url 'password_reset' %}">
-        <button type="button" class="btn btn-outline-danger">Забыли пароль?</button>
-    </a>
+  </div>
 {% endblock %}
