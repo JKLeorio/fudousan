@@ -45,33 +45,12 @@ def user_directory_path(instance, filename):
     filename = f"{uuid.uuid4()}.{extension}"
     return f"profiles/{timezone.now().date().strftime('%Y/%m/%d')}/{filename}"
 
-# def user_directory_path(instance, filename):
-#     extension = filename.split('.')[-1]
-#     filename = f"{instance.unique_id}.{extension}"
-#     return f"profiles/user_{instance.owner.unique_id}/{timezone.now().date().strftime('%Y/%m/%d')}/{filename}"
-#
-#
-# class UserImage(models.Model):
-#     owner = models.ForeignKey('User', on_delete=models.CASCADE)
-#     unique_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-#     image = models.ImageField(upload_to=user_directory_path, default='default.jpg', blank=True, null=True,
-#                               verbose_name="Аватар")
-#
-#     def __str__(self):
-#         return f"{self.image}"
-#
-#     class Meta:
-#         verbose_name = "Изображение пользователя"
-#         verbose_name_plural = "Изображения пользователей"
-
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, verbose_name="Почта")
     first_name = models.CharField(max_length=50, verbose_name="Имя")
     last_name = models.CharField(max_length=50, verbose_name="Фамилия")
     phone = models.CharField(max_length=13, blank=True, verbose_name="Номер телефона")
-    # unique_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
-    # image = models.ForeignKey(UserImage, on_delete=models.CASCADE, blank=True, null=True, verbose_name="Аватар")
     image = models.ImageField(upload_to=user_directory_path, default='default.jpg', blank=True, verbose_name="Аватар")
     is_staff = models.BooleanField(default=False, verbose_name="Сотрудник")
     is_active = models.BooleanField(default=True, verbose_name="Активен")

@@ -4,6 +4,6 @@ from users.views import RegisterView, ProfileUpdateView
 
 urlpatterns = [
     path('', include('django.contrib.auth.urls')),
-    path('<int:pk>/edit/', ProfileUpdateView.as_view(), name='user_profile_edit'),
+    path('<int:pk>/', ProfileUpdateView.as_view(), name='user_profile_update'),
     path('register/', RegisterView.as_view(), name='register')
 ]

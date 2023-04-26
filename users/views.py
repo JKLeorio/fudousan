@@ -27,7 +27,7 @@ class RegisterView(View):
             password = form.cleaned_data.get('password1')
             user = authenticate(email=email, password=password)
             login(request, user)
-            return redirect('home')
+            return redirect('estate_list')
         context = {
             'form': form
         }
@@ -38,8 +38,10 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = get_user_model()
     form_class = UserUpdateForm
     template_name = 'profile_update.html'
-    success_url = reverse_lazy('profile')
     queryset = get_user_model().objects.all()
 
     def get_object(self):
         return self.request.user
+
+    def get_success_url(self):
+        return reverse_lazy('user_profile_update', kwargs={'pk': self.request.user.pk})

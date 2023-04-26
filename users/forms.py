@@ -4,6 +4,7 @@ from django import forms
 
 
 class RegisterForm(UserCreationForm):
+
     class Meta(UserCreationForm.Meta):
         model = get_user_model()
         fields = ('email',)
