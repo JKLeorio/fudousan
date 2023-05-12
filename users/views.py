@@ -1,15 +1,17 @@
-from django.contrib.auth import authenticate, login, get_user_model
+from django.conf import settings
+
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
-from django.views.generic import UpdateView, DetailView
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy, reverse
+from django.views import View
+from django.views.generic import UpdateView
 
 from users.forms import RegisterForm, UserUpdateForm
-from django.shortcuts import render, redirect
-from django.views import View
+from users.models import User
 
 
 class RegisterView(View):
-
     template_name = 'registration/register.html'
 
     def get(self, request):
@@ -35,10 +37,10 @@ class RegisterView(View):
 
 
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
-    model = get_user_model()
+    model = User
     form_class = UserUpdateForm
     template_name = 'profile_update.html'
-    queryset = get_user_model().objects.all()
+    queryset = User.objects.all()
 
     def get_object(self):
         return self.request.user

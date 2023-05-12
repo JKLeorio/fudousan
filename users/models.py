@@ -5,13 +5,14 @@ from django.contrib.auth.models import (
     BaseUserManager,
     PermissionsMixin,
 )
+from django.core.validators import RegexValidator
 from django.db import models
 from django.utils import timezone
 
 
 class SuperUser(BaseUserManager):
 
-    def create_user(self, email, password, **extra_fields):
+    def create_user(self, email, password=None, **extra_fields):
         """
         Create and save a user with the given email and password.
         """
@@ -50,7 +51,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, verbose_name="Почта")
     first_name = models.CharField(max_length=50, verbose_name="Имя")
     last_name = models.CharField(max_length=50, verbose_name="Фамилия")
-    phone = models.CharField(max_length=13, blank=True, verbose_name="Номер телефона")
+    phone = models.CharField(max_length=10, blank=True, verbose_name="Номер телефона")
     image = models.ImageField(upload_to=user_directory_path, default='default.jpg', blank=True, verbose_name="Аватар")
     is_staff = models.BooleanField(default=False, verbose_name="Сотрудник")
     is_active = models.BooleanField(default=True, verbose_name="Активен")
