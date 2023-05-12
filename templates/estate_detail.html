@@ -1,53 +1,63 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{#  <div class="col-sm-6 mb-3 mb-sm-0">#}
-{#    <img src="{{ object.image.url }}" class="card-img-top" alt="{{ object.name }}" height="400px">#}
-{#    <div class="card-body">#}
-{#      <h5 class="card-title">{{ object.name }}</h5>#}
-{#      <p class="card-text">{{ object.description }}</p>#}
-{#      <ul>#}
-{#        <li>Площадь участка: {{ object.plot_area }}</li>#}
-{#        <li>Площадь дома: {{ object.house_area }}</li>#}
-{#        <li>Тип сделки: {{ object.get_deal_type_display }}</li>#}
-{#        <li>Цена: {{ object.price }} {{ object.currency }}</li>#}
-{#        <li>Телефон: {{ object.phone }}</li>#}
-{#        <li>Расположение: {{ object.location }}</li>#}
-{#        <li>Целевое назначение: {{ object.target }}</li>#}
-{#        <li>Коммуникации: {{ object.communications }}</li>#}
-{#        <li>Документы: {{ object.documents }}</li>#}
-{#        <li>Инфраструктура: {{ object.infrastructure }}</li>#}
-{#        <li>Тип оплаты: {{ object.payment_term }}</li>#}
-{#      </ul>#}
-{#        <a href="{% url 'estate_update' estate.pk %}" class="btn btn-primary mt-3">Редактировать</a>#}
-{#    </div>#}
-{#  </div>#}
+{#          <div id="{{ estate.id }}" class="carousel slide">#}
+{#          <div class="carousel-inner">#}
+{#            <div class="carousel-item active">#}
+{#              <img src="{{ estate.images.all.first.image.url }}" class="d-block w-100" alt="...">#}
+{#            </div>#}
+{#              {% for image in estate.images.all|slice:"1:" %}#}
+{#            <div class="carousel-item">#}
+{#              <img src="{{image.image.url}}" class="d-block w-100" alt="...">#}
+{#            </div>#}
+{#              {% endfor %}#}
+{#          </div>#}
+{#          <button class="carousel-control-prev" type="button" data-bs-target="#{{ estate.id }}" data-bs-slide="prev">#}
+{#            <span class="carousel-control-prev-icon" aria-hidden="true"></span>#}
+{#            <span class="visually-hidden">Предыдущий</span>#}
+{#          </button>#}
+{#          <button class="carousel-control-next" type="button" data-bs-target="#{{ estate.id }}" data-bs-slide="next">#}
+{#            <span class="carousel-control-next-icon" aria-hidden="true"></span>#}
+{#            <span class="visually-hidden">Следующий</span>#}
+{#          </button>#}
+{#        </div>#}
     <hr>
 <div class="row">
   <div class="col-sm-6 mb-3 mb-sm-0">
     <div class="card">
       <div class="card-body">
-          <img src="{{ object.image.url }}" class="card-img-top" alt="{{ object.name }}" height="400px">
+{#          <img src="{{ estate.images.all.first.image.url }}" class="card-img-top" alt="{{ estate.name }}" height="400px">#}
+          <img src="{{ estate.image.url }}" class="card-img-top" alt="{{ estate.name }}" height="400px">
       </div>
     </div>
   </div>
   <div class="col-sm-6 mb-3 mb-sm-0">
     <div class="card">
     <div class="card-body">
-      <h5 class="card-title">{{ object.name }}</h5>
-      <p class="card-text">{{ object.description }}</p>
+      <h5 class="card-title">{{ estate.name }}</h5>
+      <p class="card-text">{{ estate.description }}</p>
       <ul>
-        <li>Площадь участка: {{ object.plot_area }}</li>
-        <li>Площадь дома: {{ object.house_area }}</li>
-        <li>Тип сделки: {{ object.get_deal_type_display }}</li>
-        <li>Цена: {{ object.price }} {{ object.currency }}</li>
-        <li>Телефон: {{ object.phone }}</li>
-        <li>Расположение: {{ object.location }}</li>
-        <li>Целевое назначение: {{ object.target }}</li>
-        <li>Коммуникации: {{ object.communications }}</li>
-        <li>Документы: {{ object.documents }}</li>
-        <li>Инфраструктура: {{ object.infrastructure }}</li>
-        <li>Тип оплаты: {{ object.payment_term }}</li>
+        <li>Площадь участка: {{ estate.plot_area }}</li>
+        <li>Площадь дома: {{ estate.house_area }}</li>
+        <li>Тип сделки: {{ estate.get_deal_type_display }}</li>
+        <li>Цена: {{ estate.price }} {{ estate.get_currency_display }}</li>
+        <li>Телефон: {{ estate.phone }}</li>
+        <li>Расположение: {{ estate.location }}</li>
+        <li>Целевое назначение: {{ estate.target }}</li>
+        <li>Документы: {{ estate.documents }}</li>
+        <li>
+            Коммуникации:
+            {% for elem in estate.communications.all %}
+            {{ elem }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </li>
+        <li>
+            Инфраструктура:
+            {% for elem in estate.infrastructure.all %}
+            {{ elem }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        </li>
+        <li>Тип оплаты: {{ estate.payment_term }}</li>
       </ul>
         <a href="{% url 'estate_update' estate.pk %}" class="btn btn-primary mt-3">Редактировать</a>
     </div>
