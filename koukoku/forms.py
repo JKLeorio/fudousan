@@ -1,35 +1,36 @@
 from django import forms
+from django.core.validators import RegexValidator
+from django.forms.widgets import CheckboxSelectMultiple
 
-from koukoku.models import Region, City, District, Communication, Estate
+from koukoku.models import Estate
 
 
-# class RegionForm(forms.ModelForm):
+# class ImageUploadForm(forms.ModelForm):
+#     image = forms.FileField(widget=ClearableFileInput(attrs={'multiple': True}), required=False, label='Изображении')
+#
 #     class Meta:
-#         model = Region
-#         fields = ('name',)
-#
-#
-# class CityForm(forms.ModelForm):
-#     class Meta:
-#         model = City
-#         fields = ('name', 'region')
-#
-#
-# class DistrictForm(forms.ModelForm):
-#     class Meta:
-#         model = District
-#         fields = ('name', 'city')
-#
-#
-# class CommunicationForm(forms.ModelForm):
-#     class Meta:
-#         model = Communication
-#         fields = ('name',)
+#         model = Image
+#         fields = ['image', 'estate']
 
 
 class EstateCreationForm(forms.ModelForm):
+    phone_message = 'Номер телефона должен быть в таком формате: 0555666999'
+
+    phone_regex = RegexValidator(
+        regex=r'^(0)\d{9}$',
+        message=phone_message
+    )
+    phone = forms.CharField(validators=[phone_regex], max_length=10, label='Номер телефона')
+
+    #image = forms.FileField(widget=ClearableFileInput(attrs={'multiple': True}), required=False, label='Изображении')
+
     class Meta:
         model = Estate
-        fields = ('name', 'description', 'image', 'plot_area', 'house_area', 'deal_type', 'price', 'currency', 'phone',
-                  'location', 'target', 'communications', 'documents', 'infrastructure', 'payment_term',
+        fields = ('name', 'description', 'image', 'plot_area', 'house_area', 'deal_type', 'price', 'currency',
+                  'phone', 'location', 'target', 'communications', 'documents', 'infrastructure'
                   )
+        widgets = {
+            #'images': forms.ClearableFileInput(attrs={'multiple': True}),
+            'communications': CheckboxSelectMultiple(),
+            'infrastructure': CheckboxSelectMultiple(),
+        }

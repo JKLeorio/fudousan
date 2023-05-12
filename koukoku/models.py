@@ -86,14 +86,17 @@ class Infrastructure(models.Model):
         verbose_name_plural = "Инфраструктура"
 
 
-class PaymentTerm(models.Model):
-    name = models.CharField(max_length=100, verbose_name="Условие оплаты")
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = "Условие оплаты"
+# class Image(models.Model):
+#     image = models.ImageField(verbose_name="Изображение")
+#     estate = models.ForeignKey('Estate', on_delete=models.CASCADE, related_name='images', null=True,
+#                                verbose_name='Объявление')
+#
+#     def __str__(self):
+#         return f"{self.estate}"
+#
+#     class Meta:
+#         verbose_name = "Изображение"
+#         verbose_name_plural = "Изображения"
 
 
 class Estate(models.Model):
@@ -115,19 +118,19 @@ class Estate(models.Model):
     name = models.CharField(max_length=50, verbose_name="Название")
     description = models.TextField(verbose_name="Описание")
     image = models.ImageField(verbose_name="Изображение")
+    #images = models.ManyToManyField(Image, related_name='estate_images', null=True, verbose_name="Изображение")
     plot_area = models.PositiveSmallIntegerField(null=True, verbose_name="Площадь участка")
     house_area = models.PositiveSmallIntegerField(null=True, verbose_name="Площадь дома")
     deal_type = models.CharField(max_length=30, choices=DEAL_TYPE_CHOICES, default=None, verbose_name="Тип сделки")
     price = models.PositiveIntegerField(null=True, verbose_name="Цена")
     currency = models.CharField(max_length=20, choices=CURRENCY_CHOICES, default=None, verbose_name="Валюта")
-    phone = models.CharField(max_length=9, verbose_name="Номер телефона")
+    phone = models.CharField(max_length=10, verbose_name="Номер телефона")
     location = models.ForeignKey(Location, on_delete=models.SET_NULL, null=True, verbose_name="Расположение")
     target = models.ForeignKey(TargetPurpose, on_delete=models.SET_NULL, null=True, verbose_name="Целевое назначение")
-    communications = models.ForeignKey(Communication, on_delete=models.SET_NULL, null=True, verbose_name="Коммуникации")
+    communications = models.ManyToManyField(Communication, null=True, verbose_name="Коммуникации")
     documents = models.ForeignKey(Document, on_delete=models.SET_NULL, null=True, verbose_name="Документы")
-    infrastructure = models.ForeignKey(Infrastructure, on_delete=models.SET_NULL, null=True,
+    infrastructure = models.ManyToManyField(Infrastructure, null=True,
                                        verbose_name="Инфраструктура")
-    payment_term = models.ForeignKey(PaymentTerm, on_delete=models.SET_NULL, null=True, verbose_name="Условия оплаты")
 
     def __str__(self):
         return f"Объявление: {self.name}"

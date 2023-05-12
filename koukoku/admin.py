@@ -8,7 +8,6 @@ from koukoku.models import (
     Document,
     TargetPurpose,
     Infrastructure,
-    PaymentTerm,
     Estate, Location)
 
 
@@ -44,13 +43,13 @@ class InfrastructureAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
 
 
-class PaymentTermAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
+# class ImageAdmin(admin.ModelAdmin):
+#     list_display = ('id', 'image', 'estate')
 
 
 class EstateAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'plot_area', 'house_area', 'deal_type', 'price', 'currency', 'phone', 'location',
-                    'target', 'communications', 'documents', 'infrastructure', 'payment_term'
+                    'target', 'documents'#, 'communications',  'infrastructure'
                     )
 
 
@@ -62,5 +61,4 @@ admin.site.register(Communication, CommunicationAdmin)
 admin.site.register(Document, DocumentAdmin)
 admin.site.register(TargetPurpose, TargetPurposeAdmin)
 admin.site.register(Infrastructure, InfrastructureAdmin)
-admin.site.register(PaymentTerm, PaymentTermAdmin)
 admin.site.register(Estate, EstateAdmin)
