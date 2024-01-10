@@ -5,6 +5,105 @@
       <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form | crispy }}
-        <button type="submit" class="btn btn-primary">Создать</button>
+          {{ formset.management_form }}
+          <script type="text/html" id="images-template">
+                <tr id="images-__prefix__" class= hide_all>
+                    {% for fields in formset.empty_form.hidden_fields %}
+                    {{ fields }}
+                    {% endfor %}
+
+                    {% for fields in formset.empty_form.visible_fields %}
+                    <td>{{fields}}</td>
+                    {% endfor %}
+                </tr>
+          </script>
+        <div class="table-responsive card mt-4">
+            <div class="card-header card-header-secondary">
+                <h4 class="card-title">Добавить изображение</h4>
+            </div>
+            <table class="table card-body">
+                <thead class="text-secondary">
+                <th>Изображение <span style="color: red;" class="required">*</span></th>
+                <th></th>
+                <th>Кнопка удаления</th>
+                </thead>
+                <tbody id="item-images">
+                {% for error in formset.non_form_errors %}
+                <span style="color: red">{{ error }}</span>
+                {% endfor %}
+                {% for forms in formset %}
+                {{ forms.management_form }}
+                <tr id="images-{{ forloop.counter0 }}" class= hide_all>
+                    {{ forms.id }}
+                    {% for field in forms.visible_fields %}
+                    <td>
+                        {{field}}
+                        {% for error in field.errors %}
+                        <span style="color: red">{{ error }}</span>
+                        {% endfor %}
+                    </td>
+                    {% endfor %}
+                    {% if forms.instance.pk %}
+                    <td>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal{{forms.instance.pk}}">
+                            Удалить
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal{{forms.instance.pk}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel{{forms.instance.pk}}" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel{{forms.instance.pk}}">Вы точно хотите удалить запись?</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="{% url 'image_delete' forms.instance.pk %}" type="button" class="btn btn-primary">Да, удалить</a>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <button type="button" id="add-page-button" class="btn btn-secondary add-images">Добавить</button>
+        </div>
+        <h1></h1>
+        <div class="form-group">
+            <button type="submit" class="btn btn-secondary btn-block">Сохранить</button>
+        </div>
       </form>
+
+<script type="text/javascript">
+        $(document).ready(function() {
+          $('.add-images').click(function(ev) {
+              ev.preventDefault();
+              var count = $('#item-images').children().length;
+              var tmplMarkup = $('#images-template').html();
+              var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+              $('#item-images').append(compiledTmpl);
+
+              // update form count
+              $('#id_images-TOTAL_FORMS').attr('value', count+1);
+          });
+
+        $("input#id_images").on('change', function() {
+        var formset_inputs = $('div.table-responsive.card.mt-4').find('button,input');
+        console.log(formset_inputs);
+        var status = Boolean($(this).val());
+        console.log(status);
+        console.log(formset_inputs.length);
+        for(let i=0; i < formset_inputs.length; i++) {
+            console.log(formset_inputs[i]);
+            $(formset_inputs[i]).prop('disabled', status);
+        };
+        });
+        });
+    </script>
+
 {% endblock %}

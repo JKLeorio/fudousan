@@ -1,16 +1,16 @@
 from django import forms
 from django.core.validators import RegexValidator
+from django.forms import inlineformset_factory
 from django.forms.widgets import CheckboxSelectMultiple
 
-from koukoku.models import Estate
+from koukoku.models import Estate, Image
 
 
-# class ImageUploadForm(forms.ModelForm):
-#     image = forms.FileField(widget=ClearableFileInput(attrs={'multiple': True}), required=False, label='Изображении')
-#
-#     class Meta:
-#         model = Image
-#         fields = ['image', 'estate']
+class ImageUploadForm(forms.ModelForm):
+
+    class Meta:
+        model = Image
+        fields = ['image']
 
 
 class EstateCreationForm(forms.ModelForm):
@@ -22,15 +22,23 @@ class EstateCreationForm(forms.ModelForm):
     )
     phone = forms.CharField(validators=[phone_regex], max_length=10, label='Номер телефона')
 
-    #image = forms.FileField(widget=ClearableFileInput(attrs={'multiple': True}), required=False, label='Изображении')
-
     class Meta:
         model = Estate
-        fields = ('name', 'description', 'image', 'plot_area', 'house_area', 'deal_type', 'price', 'currency',
+        fields = ('name', 'description', 'plot_area', 'house_area', 'deal_type', 'price', 'currency',
                   'phone', 'location', 'target', 'communications', 'documents', 'infrastructure'
                   )
         widgets = {
-            #'images': forms.ClearableFileInput(attrs={'multiple': True}),
+            # 'images': forms.ClearableFileInput(attrs={'multiple': True}),
             'communications': CheckboxSelectMultiple(),
             'infrastructure': CheckboxSelectMultiple(),
         }
+
+
+ImagesFormSet = inlineformset_factory(
+    Estate,
+    Image,
+    form=ImageUploadForm,
+    extra=0,
+    can_delete=False,
+    can_delete_extra=False,
+)

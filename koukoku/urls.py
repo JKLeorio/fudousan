@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import EstateListView, EstateDetailView, EstateCreateView, EstateUpdateView, EstateDeleteView
+from .views import EstateListView, EstateDetailView, EstateCreateView, EstateUpdateView, EstateDeleteView, delete_image
 
 
 urlpatterns = [
@@ -9,4 +9,5 @@ urlpatterns = [
     path('<int:pk>/', EstateDetailView.as_view(), name='estate_detail'),
     path('<int:pk>/update/', EstateUpdateView.as_view(), name='estate_update'),
     path('<int:pk>/delete/', EstateDeleteView.as_view(), name='estate_delete'),
+    path('page/delete/<int:pk>/', delete_image, name='image_delete'),
 ]

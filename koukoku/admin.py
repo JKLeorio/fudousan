@@ -8,7 +8,9 @@ from koukoku.models import (
     Document,
     TargetPurpose,
     Infrastructure,
-    Estate, Location)
+    Estate,
+    Location,
+    Image)
 
 
 class RegionAdmin(admin.ModelAdmin):
@@ -62,3 +64,4 @@ admin.site.register(Document, DocumentAdmin)
 admin.site.register(TargetPurpose, TargetPurposeAdmin)
 admin.site.register(Infrastructure, InfrastructureAdmin)
 admin.site.register(Estate, EstateAdmin)
+admin.site.register(Image)
