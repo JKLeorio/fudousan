@@ -9,11 +9,11 @@
           <div id="carouselID" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <img src="{{ estate.images.all.first.image.url }}" class="d-block w-100" alt="...">
+              <img src="{{ estate.images.all.first.image.url }}" class="d-block w-100" style="width: 100% !important; height: 75vh;" alt="...">
             </div>
               {% for image in estate.images.all|slice:"1:" %}
                 <div class="carousel-item">
-                  <img src="{{ image.image.url }}" class="d-block w-100" alt="...">
+                  <img src="{{ image.image.url }}" class="d-block w-100" style="width: 100% !important; height: 75vh;" alt="...">
                 </div>
               {% endfor %}
           </div>
