@@ -1,15 +1,18 @@
 # fudousan
 
-This is a real estate purchase and sale project.
+Проект для создания и отображения объявлений о недвижимости.
 
-It will be convenient for customers to view their ads, and they will also have their own personal account.
+**УСтановка и запуск**
 
-Administrators can monitor, manage, and delete irrelevant ads. In addition, they can delete unauthorized users.
+Установите зависимости python
 
-## Author
+после установки python
+python -m pip install poetry
 
-**Mamatazim Kozubaev**
+перемещаемся в дирректорию проекта
+poetry install
+poetry shell
 
-*This project is a qualification graduate work*
-
-*2023*
+python3 manage.py makemigrations
+python3 manage.py migrate
+python3 manage.py runserver
